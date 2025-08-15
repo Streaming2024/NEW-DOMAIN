@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Channel Player (Plyr)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Plyr CSS -->
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+
+  <!-- HLS.js -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.0/dist/hls.min.js"></script>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+    .plyr__video-embed, video {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <video id="player" controls playsinline></video>
+
+  <script>
+    const channels = [
+      {
+        "name": "Sony YAY",
+        "logo": "https://sonypicturesnetworks.com/images/logos/SONY%20YAY.png",
+        "url": "https://tataplay.slivcdn.com/hls/live/2011746/SonyYaySD/master_3500.m3u8",
+        "category": "Kids"
+      },
+      {
+        "name": "Sony BBC Earth HD",
+        "logo": "https://sonypicturesnetworks.com/images/logos/SBBCE_LOGO_NEW_PNG.png",
+        "url": "https://tataplay.slivcdn.com/hls/live/2011907/SonyBBCEarthHD/master_3500.m3u8",
+        "category": "Infotainment"
+      },
+      {
+        "name": "Sony PIX HD",
+        "logo": "https://sonypicturesnetworks.com/images/logos/PIX%20HD_WHITE.png",
+        "url": "https://tataplay.slivcdn.com/hls/live/2011748/PIXHD/master_3500.m3u8",
+        "category": "Movies"
+      },
+      {
+        "name": "sonyten1hd",
+        "logo": "https://sonypicturesnetworks.com/images/logos/SONY_SportsTen1_HD_Logo_CLR.png",
+        "url": "https://tataplay.slivcdn.com/hls/live/2011747/TEN1HD/master_3500.m3u8",
+        "category": "Sports"
+      },
+      {
+        "name": "Sony TEN 1",
+        "logo": "https://sonypicturesnetworks.com/images/logos/SONY_SportsTen1_SD_Logo_CLR.png",
+        "url": "https://tataplay.slivcdn.com/hls/live/2011739/TEN1SD/master_3500.m3u8",
+        "category": "Sports"
+      },
+      {
+        "name": "sonyten2hd",
+        "logo": "https://sonypicturesnetworks.com/images/logos/SONY_SportsTen2_HD_Logo_CLR.png",
+        "url": "https://tataplay.slivcdn.com/hls/live/2020434/TEN2HD/master_3500.m3u8",
+        "category": "Sports"
+      },
+      {
+        "name": "Sony TEN 2",
+        "logo": "https://sonypicturesnetworks.com/images/logos/SONY_SportsTen2_SD_Logo_CLR.png",
+        "url": "https://tataplay.slivcdn.com/hls/live/2020590/TEN2SD/master_3500.m3u8",
+        "category": "Sports"
+      },
+      {
+        "name": "sonyten3hd",
+        "logo": "https://sonypicturesnetworks.com/images/logos/SONY_SportsTen4_HD_Logo_CLR.png",
+        "url": "https://tataplay.slivcdn.com/hls/live/2020591/TEN3HD/master_3500.m3u8",
+        "category": "Sports"
+      },
+      {
+        "name": "top",
+        "logo": "https://sonypicturesnetworks.com/images/logos/SONY_SportsTen4_HD_Logo_CLR.png",
+        "url": "https://stream2.aryzap.com/v1/0185aab4885d1ea5578a03c0bfd5/0185aab4ab4e1ea540e60615c5d4/main.m3u8",
+        "category": "Sports"
+      },
+      {
+        "name": "top1",
+        "logo": "https://sonypicturesnetworks.com/images/logos/SONY_SportsTen4_SD_Logo_CLR.png",
+        "url": "https://1a-1791.com/live/1n1ugl24/slot-3/g311-8zmf_1080p/chunklist.m3u8",
+        "category": "Sports"
+      },
+      {
+        "name": "sonyten5hd",
+        "logo": "https://sonypicturesnetworks.com/images/logos/SONY_SportsTen5_HD_Logo_CLR.png",
+        "url": "https://tataplay.slivcdn.com/hls/live/2020593/SONYSIXHD/master_3500.m3u8",
+        "category": "Sports"
+      }
+    ];
+
+    // Get channel name from URL
+    const getChannelName = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('id');
+    };
+
+    const channelName = getChannelName();
+    const channel = channels.find(ch => ch.name.toLowerCase() === channelName?.toLowerCase());
+
+    if (!channel) {
+      document.body.innerHTML = "<h1 style='color:white;text-align:center;margin-top:20%'>Channel not found.</h1>";
+    } else {
+      const video = document.getElementById('player');
+
+      if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(channel.url);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+          video.play().catch(() => {});
+        });
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = channel.url;
+        video.addEventListener('loadedmetadata', function () {
+          video.play().catch(() => {});
+        });
+      }
+
+      // Initialize Plyr
+      new Plyr(video, {
+        autoplay: true,
+        volume: 0.8
+      });
+    }
+  </script>
+
+  <!-- Plyr JS -->
+  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+</body>
+</html>
