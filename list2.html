@@ -1,141 +1,156 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
 <head>
-  <meta charset="UTF-8" />
-  <title>Channel Player (Plyr)</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <link href='https://nirutv.online/logo/favicon.png' rel='icon' type='image/x-icon'/>
+  <meta name="author" content="T20HD Embed" />
+  <meta name="designer" content="T20" />
+  <meta name="description" content="Watch Live Streaming T20. No signup required">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   
   <!-- Plyr CSS -->
-  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-
-  <!-- HLS.js -->
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.0/dist/hls.min.js"></script>
-
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.6.2/plyr.css" />
+  <link rel="stylesheet" href="/dist/wmlogo.css" />
+  <script src="https://kit.fontawesome.com/bf2610f0a2.js" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/gh/halfmoonui/halfmoon@1.0.4/css/halfmoon.min.css" rel="stylesheet" />
+  
+  <title>Plyr Player</title>
+  
   <style>
-    html, body {
+    body {
+      background: #000;
       margin: 0;
       padding: 0;
-      background: #000;
-      height: 100%;
-      width: 100%;
-      overflow: hidden;
     }
-    .plyr__video-embed, video {
+    video {
       width: 100%;
-      height: 100%;
+      height: 100vh;
+      background: #000;
     }
   </style>
 </head>
-<body>
-  <video id="player" controls playsinline></video>
+<body class="dark-mode with-custom-scrollbars with-custom-css-scrollbars">
+
+  <!-- Plyr Video Player -->
+  <video id="player" controls preload="metadata" poster="https://nirutv.online/logo/image.png" class="plyr">
+    <source id="videoSource" type="application/x-mpegURL"/>
+  </video>
+
+  <!-- HLS.js and Plyr Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script src="https://cdn.plyr.io/3.6.2/plyr.polyfilled.js"></script>
 
   <script>
+    // Your channel list
     const channels = [
       {
-        "name": "Sony YAY",
-        "logo": "https://sonypicturesnetworks.com/images/logos/SONY%20YAY.png",
-        "url": "https://tataplay.slivcdn.com/hls/live/2011746/SonyYaySD/master_3500.m3u8",
-        "category": "Kids"
+        "name": "top1",
+        "url": "https://stream2.aryzap.com/v1/0185aab4885d1ea5578a03c0bfd5/0185aab4ab4e1ea540e60615c5d4/main.m3u8"
       },
       {
-        "name": "Sony BBC Earth HD",
-        "logo": "https://sonypicturesnetworks.com/images/logos/SBBCE_LOGO_NEW_PNG.png",
-        "url": "https://tataplay.slivcdn.com/hls/live/2011907/SonyBBCEarthHD/master_3500.m3u8",
-        "category": "Infotainment"
+        "name": "top2",
+        "url": "https://tvsen7.aynaott.com/asports-bkp/index.m3u8"
       },
       {
-        "name": "Sony PIX HD",
-        "logo": "https://sonypicturesnetworks.com/images/logos/PIX%20HD_WHITE.png",
-        "url": "https://tataplay.slivcdn.com/hls/live/2011748/PIXHD/master_3500.m3u8",
-        "category": "Movies"
+        "name": "top3",
+        "url": "https://tvsen6.aynaott.com/tsportsfhd/index.ts.m3u8"
       },
       {
-        "name": "sonyten1hd",
-        "logo": "https://sonypicturesnetworks.com/images/logos/SONY_SportsTen1_HD_Logo_CLR.png",
-        "url": "https://tataplay.slivcdn.com/hls/live/2011747/TEN1HD/master_3500.m3u8",
-        "category": "Sports"
+        "name": "top4",
+        "url": "https://looooooool.footfast.net/event/269.m3u8"
       },
       {
-        "name": "Sony TEN 1",
-        "logo": "https://sonypicturesnetworks.com/images/logos/SONY_SportsTen1_SD_Logo_CLR.png",
-        "url": "https://tataplay.slivcdn.com/hls/live/2011739/TEN1SD/master_3500.m3u8",
-        "category": "Sports"
+        "name": "top5",
+        "url": "https://tataplay.slivcdn.com/hls/live/2011739/TEN1SD/master_3500.m3u8"
       },
       {
         "name": "sonyten2hd",
-        "logo": "https://sonypicturesnetworks.com/images/logos/SONY_SportsTen2_HD_Logo_CLR.png",
-        "url": "https://tataplay.slivcdn.com/hls/live/2020434/TEN2HD/master_3500.m3u8",
-        "category": "Sports"
+        "url": "https://tataplay.slivcdn.com/hls/live/2020434/TEN2HD/master_3500.m3u8"
       },
       {
         "name": "Sony TEN 2",
-        "logo": "https://sonypicturesnetworks.com/images/logos/SONY_SportsTen2_SD_Logo_CLR.png",
-        "url": "https://tataplay.slivcdn.com/hls/live/2020590/TEN2SD/master_3500.m3u8",
-        "category": "Sports"
+        "url": "https://tataplay.slivcdn.com/hls/live/2020590/TEN2SD/master_3500.m3u8"
       },
       {
         "name": "sonyten3hd",
-        "logo": "https://sonypicturesnetworks.com/images/logos/SONY_SportsTen4_HD_Logo_CLR.png",
-        "url": "https://tataplay.slivcdn.com/hls/live/2020591/TEN3HD/master_3500.m3u8",
-        "category": "Sports"
+        "url": "https://tataplay.slivcdn.com/hls/live/2020591/TEN3HD/master_3500.m3u8"
       },
       {
         "name": "top",
-        "logo": "https://sonypicturesnetworks.com/images/logos/SONY_SportsTen4_HD_Logo_CLR.png",
-        "url": "https://stream2.aryzap.com/v1/0185aab4885d1ea5578a03c0bfd5/0185aab4ab4e1ea540e60615c5d4/main.m3u8",
-        "category": "Sports"
+        "url": "https://rumble.com/live-hls/6vdglk/playlist.m3u8?"
       },
       {
         "name": "top1",
-        "logo": "https://sonypicturesnetworks.com/images/logos/SONY_SportsTen4_SD_Logo_CLR.png",
-        "url": "https://1a-1791.com/live/1n1ugl24/slot-3/g311-8zmf_1080p/chunklist.m3u8",
-        "category": "Sports"
+        "url": "https://1a-1791.com/live/1n1ugl24/slot-3/g311-8zmf_1080p/chunklist.m3u8"
       },
       {
         "name": "sonyten5hd",
-        "logo": "https://sonypicturesnetworks.com/images/logos/SONY_SportsTen5_HD_Logo_CLR.png",
-        "url": "https://tataplay.slivcdn.com/hls/live/2020593/SONYSIXHD/master_3500.m3u8",
-        "category": "Sports"
+        "url": "https://tataplay.slivcdn.com/hls/live/2020593/SONYSIXHD/master_3500.m3u8"
       }
     ];
 
-    // Get channel name from URL
-    const getChannelName = () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get('id');
-    };
+    // Get "id" parameter from URL
+    function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&");
+      const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+      const results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
 
-    const channelName = getChannelName();
-    const channel = channels.find(ch => ch.name.toLowerCase() === channelName?.toLowerCase());
+    document.addEventListener("DOMContentLoaded", () => {
+      const channelName = getParameterByName('id');
+      const channel = channels.find(ch => ch.name.toLowerCase() === channelName?.toLowerCase());
 
-    if (!channel) {
-      document.body.innerHTML = "<h1 style='color:white;text-align:center;margin-top:20%'>Channel not found.</h1>";
-    } else {
-      const video = document.getElementById('player');
-
-      if (Hls.isSupported()) {
-        const hls = new Hls();
-        hls.loadSource(channel.url);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, function () {
-          video.play().catch(() => {});
-        });
-      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = channel.url;
-        video.addEventListener('loadedmetadata', function () {
-          video.play().catch(() => {});
-        });
+      if (!channel) {
+        document.body.innerHTML = "<h1 style='color:white;text-align:center;margin-top:20%'>Channel not found.</h1>";
+        return;
       }
 
-      // Initialize Plyr
-      new Plyr(video, {
-        autoplay: true,
-        volume: 0.8
-      });
-    }
-  </script>
+      const video = document.getElementById("player");
+      const source = document.getElementById("videoSource");
+      const videoUrl = channel.url;
 
-  <!-- Plyr JS -->
-  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+      source.setAttribute('src', videoUrl);
+      video.load();
+
+      if (Hls.isSupported()) {
+        const hls = new Hls({
+          maxMaxBufferLength: 100
+        });
+
+        hls.loadSource(videoUrl);
+        hls.attachMedia(video);
+        window.hls = hls;
+
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+          const availableQualities = hls.levels.map(level => level.height).sort((a, b) => a - b);
+
+          // Start in auto quality mode
+          hls.currentLevel = -1;
+
+          new Plyr(video, {
+            autoplay: true,
+            volume: 0.8,
+            quality: {
+              default: availableQualities[availableQualities.length - 1],
+              options: availableQualities,
+              forced: false,
+              onChange: quality => {
+                const level = hls.levels.findIndex(level => level.height === quality);
+                hls.currentLevel = level;
+              }
+            }
+          });
+        });
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = videoUrl;
+        new Plyr(video, { autoplay: true, volume: 0.8 });
+      }
+    });
+  </script>
 </body>
 </html>
