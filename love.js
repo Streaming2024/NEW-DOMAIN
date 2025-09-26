@@ -1,7 +1,7 @@
 // streams.js
 const streamMap = {
-  "Fox": {
-    url: "https://hugh.cdn.rumble.cloud/live/v0xi25uh/slot-85/xop9-bbmz/chunklist_DVR.m3u8",
+  "sony": {
+    url: "https://live-en.aisports.cc/moviebox/football001/playlist.m3u8",
     poster: "#"
   },
   "willow": {
