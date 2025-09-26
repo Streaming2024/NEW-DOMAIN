@@ -5,11 +5,11 @@ const streamMap = {
     poster: "#"
   },
   "willow": {
-    url: "https://rumble.com/live-hls-dvr/6xbiao/playlist.m3u8",
+    url: "https://hugh.cdn.rumble.cloud/live/d5a20b4d/slot-129/op44-sm5h/chunklist.m3u8",
     poster: "#"
   },
   "Fox2": {
-    url: "https://hugh.cdn.rumble.cloud/live/d0t27del/slot-155/mmil-w7nl/chunklist.m3u8",
+    url: "https://hugh.cdn.rumble.cloud/live/d5a20b4d/slot-129/op44-sm5h/chunklist.m3u8",
     poster: "#"
   },
   "illow": {
