@@ -27,7 +27,6 @@
       object-fit: contain;
       background: #000;
     }
-    /* Optional: Fullscreen button styling */
     #fullscreen-btn {
       position: absolute;
       bottom: 15px;
@@ -69,16 +68,10 @@
       video.addEventListener('loadedmetadata', () => video.play());
     }
 
-    // Fullscreen button handler
-    const fullscreenBtn = document.getElementById('fullscreen-btn');
-    fullscreenBtn.addEventListener('click', () => {
-      if (video.requestFullscreen) {
-        video.requestFullscreen();
-      } else if (video.webkitRequestFullscreen) {
-        video.webkitRequestFullscreen();
-      } else if (video.msRequestFullscreen) {
-        video.msRequestFullscreen();
-      }
+    document.getElementById('fullscreen-btn').addEventListener('click', () => {
+      if (video.requestFullscreen) video.requestFullscreen();
+      else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+      else if (video.msRequestFullscreen) video.msRequestFullscreen();
     });
   </script>
 
